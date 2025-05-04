@@ -1,16 +1,18 @@
 import express from 'express';
-import signupRouter from './signup.js';
+
+
+import sendOtp from './sendOtp.js';
 import verifyOtpRouter from './verifyOtp.js';
 import resendOtpRouter from './resendOtp.js';
-import loginRouter from './login.js';
 import googleAuthRouter from './googleAuth.js';
+
 
 const router = express.Router();
 
-router.use('/signup', signupRouter);
-router.use('/verify-otp', verifyOtpRouter);
+router.use('/send-otp', sendOtp);
 router.use('/resend-otp', resendOtpRouter);
-router.use('/login', loginRouter);
+router.use('/verify-otp', verifyOtpRouter);
 router.use('/google', googleAuthRouter);
+
 
 export default router;
