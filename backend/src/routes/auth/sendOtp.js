@@ -1,17 +1,14 @@
-// src/routes/auth/verifyOtp.js
+// src/routes/auth/sendOtp.js
 import express from 'express';
 import { body, validationResult } from 'express-validator';
-import verifyOtpController from '../../controllers/auth/verifyOtpController.js';
 import generateResponse from '../../utils/generateResponse.js';
+import sendOtpController from '../../controllers/auth/sendOtpController.js';
 
 const router = express.Router();
 
 router.post(
   '/',
-  [
-    body('email').isEmail().withMessage('Valid email is required'),
-    body('otp').isLength({ min: 6, max: 6 }).matches(/^\d+$/).withMessage('OTP must be numeric')
-  ],
+  [ body('email').isEmail().withMessage('Valid email is required') ],
   (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -19,7 +16,7 @@ router.post(
     }
     next();
   },
-  verifyOtpController
+  sendOtpController
 );
 
 export default router;
