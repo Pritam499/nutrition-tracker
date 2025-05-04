@@ -1,50 +1,47 @@
+// src/components/SignupForm.jsx
+
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { setLoading, setUser, setError } from '../redux/userSlice';
-import axios from 'axios';
+import GoogleLoginButton from './GoogleLoginButton';
+import { sendOtp } from '../services/apis';
 
 const SignupForm = () => {
-  const [formData, setFormData] = useState({ name: '', email: '', password: '' });
+  const [formData, setFormData] = useState({ name: '', email: '' });
   const dispatch = useDispatch();
-  const { loading, error } = useSelector(state => state.user);
+  const navigate = useNavigate();
+  const { loading, error } = useSelector((state) => state.user);
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     dispatch(setLoading());
     try {
-      const response = await axios.post('http://localhost:3001/api/auth/signup', formData);
-      dispatch(setUser(response.data));
+      const res = await sendOtp(formData); // sendOtp API from apis.js
+      dispatch(setUser({ email: formData.email, name: formData.name })); // store name & email in Redux
+      navigate('/verify-otp'); // redirect to verify OTP page
     } catch (err) {
       dispatch(setError(err.response?.data?.message || 'Signup failed'));
     }
-  };
-
-  const handleGoogleLogin = () => {
-    // Placeholder – connect with real Google OAuth flow
-    alert('Google Sign-In is coming soon!');
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-white">
       <div className="w-full max-w-md p-8 rounded-2xl shadow-xl bg-white border border-gray-200">
         <div className="text-center mb-6">
-          <img src="../src/assets/LogoGradient.png" alt="Logo" className="w-12 h-12 mx-auto" />
+          <img src="/src/assets/LogoGradient.png" alt="Logo" className="w-12 h-12 mx-auto" />
           <h1 className="text-3xl font-bold text-gray-900">Create Account</h1>
           <p className="text-sm text-gray-500 mt-1">Start your journey with us</p>
         </div>
 
-        <button
-          onClick={handleGoogleLogin}
-          className="w-full mb-6 flex items-center justify-center gap-2 py-2 px-4 border border-gray-300 rounded-md hover:bg-gray-50 transition"
-        >
-          <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" className="w-3 h-3" />
-          <span className="text-sm font-medium text-gray-700">Continue with Google</span>
-        </button>
+        <div className="mb-6">
+          <GoogleLoginButton mode="signup" />
+        </div>
 
         <div className="relative mb-6">
           <div className="absolute inset-0 flex items-center">
@@ -75,15 +72,6 @@ const SignupForm = () => {
               required
               className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-600 focus:outline-none text-sm"
             />
-            <input
-              type="password"
-              name="password"
-              placeholder="Password"
-              value={formData.password}
-              onChange={handleChange}
-              required
-              className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-600 focus:outline-none text-sm"
-            />
             {error && <p className="text-red-500 text-sm">{error}</p>}
             <button
               type="submit"
@@ -92,7 +80,7 @@ const SignupForm = () => {
                 loading ? 'bg-gray-500' : 'bg-blue-600 hover:bg-blue-700'
               }`}
             >
-              {loading ? 'Signing up...' : 'Sign Up'}
+              {loading ? 'Sending OTP...' : 'Sign Up'}
             </button>
           </div>
         </form>
