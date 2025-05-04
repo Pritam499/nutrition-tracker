@@ -1,4 +1,4 @@
-// src/models/food.js
+// // src/models/food.js
 
 import { DataTypes } from "sequelize";
 import { sequelize } from "../config/db.js";
@@ -10,47 +10,50 @@ export const Food = sequelize.define(
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
-      allowNull: false,
     },
-    name: {
-      type: DataTypes.TEXT,
-      allowNull: false,
-    },
-    calories: {
-      type: DataTypes.DOUBLE,
-    },
-    protein: {
-      type: DataTypes.DOUBLE,
-    },
-    fat: {
-      type: DataTypes.DOUBLE,
-    },
-    carbs: {
-      type: DataTypes.DOUBLE,
-    },
-    serving_size: {
-      type: DataTypes.TEXT,
-    },
-    barcode: {
-      type: DataTypes.TEXT,
+    fdc_id: {
+      type: DataTypes.BIGINT,
       unique: true,
+      allowNull: false,
     },
-    brand_name: {
+    data_type: {
       type: DataTypes.TEXT,
+      allowNull: true,
     },
-    food_category: {
+    description: {
       type: DataTypes.TEXT,
+      allowNull: true,
+    },
+    food_category_id: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+    },
+    publication_date: {
+      type: DataTypes.DATE,
+      allowNull: true,
+    },
+    nutrients: {
+      type: DataTypes.JSONB,
+      allowNull: true,
+      defaultValue: {},
+    },
+    nutrient_id: {
+      type: DataTypes.INTEGER,
+      allowNull: true,  // Allowing null if no nutrient_id exists
     },
     created_at: {
       type: DataTypes.DATE,
       defaultValue: DataTypes.NOW,
     },
+    updated_at: {
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW,
+    },
   },
   {
-    tableName: "food",
+    tableName: "foods",
     schema: "soft_tracker",
     timestamps: true,
     underscored: true,
   }
 );
-

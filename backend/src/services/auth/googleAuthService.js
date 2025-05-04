@@ -8,11 +8,15 @@ const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 const googleAuthService = async (token) => {
   const ticket = await client.verifyIdToken({
-    idToken: token,
-    audience: process.env.GOOGLE_CLIENT_ID,
-  });
+  idToken: token,
+  audience: process.env.GOOGLE_CLIENT_ID,
+});
 
-  const payload = ticket.getPayload();
+console.log("Incoming token:", token);
+console.log("GOOGLE_CLIENT_ID:", process.env.GOOGLE_CLIENT_ID);
+
+const payload = ticket.getPayload();
+console.log("Google payload:", payload);
   const { email, name } = payload;
 
   let user = await Users.findOne({ where: { email } });
