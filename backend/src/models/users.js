@@ -66,6 +66,14 @@ export const Users = sequelize.define(
       type: DataTypes.BOOLEAN,
       defaultValue: false,
     },
+    reset_token: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    reset_token_expiry: {
+      type: DataTypes.DATE,
+      allowNull: true,
+    },    
   },
   {
     tableName: "users",
