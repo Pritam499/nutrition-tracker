@@ -3,26 +3,14 @@
 import express from 'express';
 const router = express.Router();
 
+// Auth routes
+
 import authRouter from '../routes/auth/index.js';
-import ProfileUpdateRoute from '../routes/profile/profile.js';
-import dashboardRouter from './dashboardRoutes.js';
-import AIrecommendation from './ai/proteinRecommendation.js';
-import FoodSearch from './food/foodSearch.js';
-import FoodDeatil from './food/foodDetail.js';
-import FoodLog from './food/foodLog.js';
-import CustomFood from './food/customFoodRoutes.js';
-import foodRecommmendation from './food/foodRecommendation.js';
+import leadRoutes from './lead/leadRoutes.js';
 
+
+// ✅ Fix auth route priorities here
 router.use('/auth', authRouter);
-router.use('/profile', ProfileUpdateRoute);
-router.use('/dashboard', dashboardRouter);
-router.use('/ai', AIrecommendation);
-
-// ✅ Fix route priorities here
-router.use('/food/recommendations', foodRecommmendation);
-router.use('/food/search', FoodSearch);
-router.use('/food/log', FoodLog);
-router.use('/food/custom', CustomFood);
-router.use('/food', FoodDeatil);  // dynamic route like /food/:fdcId comes last
+router.use('/leads', leadRoutes);
 
 export default router;

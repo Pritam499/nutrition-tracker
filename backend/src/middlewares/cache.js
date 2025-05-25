@@ -1,3 +1,5 @@
+// src/middlewares/cache.js
+
 import redis from 'ioredis';
 
 // Create a Redis client using the connection URL from environment variables

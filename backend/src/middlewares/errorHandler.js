@@ -1,3 +1,5 @@
+// src/middlewares/errorHandler.js
+
 /**
  * Centralized error handler middleware.
  *

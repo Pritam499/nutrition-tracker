@@ -1,3 +1,5 @@
+// src/jobs/queue.js
+
 import { Queue } from 'bullmq';
 import { REDIS_URL } from '../config/index.js';
 
